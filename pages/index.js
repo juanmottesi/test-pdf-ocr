@@ -10,7 +10,7 @@ const DniFront = ({ setStep, setData }) => {
     setVideoConstraints({
       width: window.innerWidth,
       height: window.innerHeight,
-      facingMode: 'forward'
+      facingMode: { exact: "environment" }
     });
     setLoading(false);
   }, [])
