@@ -1,9 +1,9 @@
 import React from 'react';
-import Camera from '../components/Camera';
+import { RCamera } from 'react-camera-media-stream'
 
 const Home = () => {
   return (
-    <Camera />
+    <RCamera isFullscreen={true} />
   )
 }
 
