@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Webcam from "react-webcam";
 import { BrowserPDF417Reader } from '@zxing/browser';
+import Tesseract from 'tesseract.js';
 
-const DniFront = ({ setStep, setData }) => {
+
+const DniReader = ({ setStep, setData, nextStep }) => {
   const [loading, setLoading] = useState(true);
   const [videoConstraints, setVideoConstraints] = useState({ width: 360, height: 640 });
   const webcamRef = useRef(null);
@@ -18,7 +20,7 @@ const DniFront = ({ setStep, setData }) => {
   const capture = () => {
     const imageSrc = webcamRef.current.getScreenshot({ width: 1920, height: 1080 });
     setData(imageSrc);
-    setStep('showDniFront');
+    setStep(nextStep);
   }
 
   return !loading && <>
@@ -33,7 +35,6 @@ const DniFrontInfo = ({ data, setStep }) => {
   useEffect(() => {
     const codeReader = new BrowserPDF417Reader();
     const sourceElem = document.querySelector('#image');
-    console.log('????', sourceElem);
     codeReader.decodeFromImageElement(sourceElem).then((r) => { setPdf417(r)}).catch(() => setError('T_T'))
   },[]);
 
@@ -51,6 +52,50 @@ const DniFrontInfo = ({ data, setStep }) => {
   )
 }
 
+const DniBackInfo = ({ data, setStep }) => {
+  const [ocr, setOcr] = useState('');
+  const [error, setError] = useState(null);
+
+  useEffect(async () => {
+    const worker = Tesseract.createWorker({
+      logger: m => console.log(m)
+    });
+
+    const exampleImage = document.querySelector('#image');
+
+    async function work() {
+      await worker.load();
+      await worker.loadLanguage('eng');
+      await worker.initialize('eng');
+
+      let result = await worker.detect(exampleImage);
+      console.log('???',result.data);
+
+      result = await worker.recognize(exampleImage);
+      console.log('???', result.data);
+
+      setOcr(result.data.text);
+
+      await worker.terminate();
+    }
+
+    work();
+
+  }, []);
+
+  return (
+    <div>
+      <img id="image" src={data} width="60%" height="30%" />
+      { ocr &&
+        <>
+        <div>{ocr.text}</div>
+          <button onClick={() => setStep('end')}>next</button>
+        </>
+      }
+      { error && <button onClick={() => setStep('askDniBack')}>Error!!! volver</button>}
+    </div>
+  )
+}
 
 const Intro = ({ setStep }) => (
   <div>
@@ -74,11 +119,11 @@ const Home = () => {
   const renderElement = () => {
     switch (step) {
       case 'start': return <Intro setStep={setStep} />;
-      case 'askDniFront': return <DniFront setData={setDniFront} setStep={setStep} />;
+      case 'askDniFront': return <DniReader setData={setDniFront} setStep={setStep} nextStep="showDniFront" />;
       case 'showDniFront': return <DniFrontInfo data={dniFront} setStep={setStep} />;
-      case 'askDniBack': return <DniBack setData={setDniBack} setStep={setStep} />;
+      case 'askDniBack': return <DniReader setData={setDniBack} setStep={setStep} nextStep="showDniBack" />;
       case 'showDniBack': return <DniBackInfo data={dniBack} setStep={setStep} />;
-      default: <div>????</div>;
+      default: <div>FIN</div>;
     }
   }
 
