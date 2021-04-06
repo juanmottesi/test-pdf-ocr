@@ -5,16 +5,15 @@ import Tesseract from 'tesseract.js';
 
 
 const DniReader = ({ setStep, setData, nextStep }) => {
-  const [loading, setLoading] = useState(true);
-  const [videoConstraints, setVideoConstraints] = useState({ width: 360, height: 640 });
+  const [options, setOptions] = useState({ loading: true, width: 320, height: 564 });
+  const [videoConstraints, setVideoConstraints] = useState({ width: 320, height: 564 });
+
   const webcamRef = useRef(null);
   useEffect(() => {
-    setVideoConstraints({
-      width: window.innerWidth,
-      height: window.innerHeight,
-      facingMode: { exact: "environment" }
-    });
-    setLoading(false);
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    setOptions({ width, height, loading: false });
+    setVideoConstraints({ width, height, /*facingMode: { exact: "environment" } */ });
   }, [])
 
   const capture = () => {
@@ -23,8 +22,8 @@ const DniReader = ({ setStep, setData, nextStep }) => {
     setStep(nextStep);
   }
 
-  return !loading && <div>
-    <Webcam ref={webcamRef} width="90%" audio={false} screenshotFormat="image/png" videoConstraints={videoConstraints} />
+  return !options.loading && <div>
+    <Webcam ref={webcamRef} width={320} height={564} audio={false} screenshotFormat="image/png" videoConstraints={videoConstraints} />
     <button style={{ position: 'absolute', bottom: 40, right: '50%' }} onClick={capture}>Foto</button>
   </div>
 }
