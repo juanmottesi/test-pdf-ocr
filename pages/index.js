@@ -13,7 +13,7 @@ const DniReader = ({ setStep, setData, nextStep }) => {
     const width = window.innerWidth;
     const height = window.innerHeight;
     setOptions({ width, height, loading: false });
-    setVideoConstraints({ width, height, /*facingMode: { exact: "environment" } */ });
+    setVideoConstraints({ width, height, facingMode: { exact: "environment" } });
   }, [])
 
   const capture = () => {
@@ -24,6 +24,8 @@ const DniReader = ({ setStep, setData, nextStep }) => {
 
   return !options.loading && <div>
     <Webcam ref={webcamRef} width={options.width} height={options.height} audio={false} screenshotFormat="image/png" videoConstraints={videoConstraints} />
+    <div>{options.width}</div>
+    <div>{options.height}</div>
     <button style={{ position: 'absolute', bottom: 40, right: '50%' }} onClick={capture}>Foto</button>
   </div>
 }
