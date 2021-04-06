@@ -16,7 +16,7 @@ const DniFront = ({ setStep, setData }) => {
   }, [])
 
   const capture = () => {
-    const imageSrc = webcamRef.current.getScreenshot();
+    const imageSrc = webcamRef.current.getScreenshot({ width: 1920, height: 1080 });
     setData(imageSrc);
     setStep('showDniFront');
   }
