@@ -23,7 +23,7 @@ const DniReader = ({ setStep, setData, nextStep }) => {
   }
 
   return !options.loading && <div>
-    <Webcam ref={webcamRef} width={320} height={564} audio={false} screenshotFormat="image/png" videoConstraints={videoConstraints} />
+    <Webcam ref={webcamRef} width={options.width} height={options.height} audio={false} screenshotFormat="image/png" videoConstraints={videoConstraints} />
     <button style={{ position: 'absolute', bottom: 40, right: '50%' }} onClick={capture}>Foto</button>
   </div>
 }
