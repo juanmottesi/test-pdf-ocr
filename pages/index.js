@@ -2,18 +2,23 @@ import React, { useEffect, useRef, useState } from 'react';
 import Webcam from "react-webcam";
 import { BrowserPDF417Reader } from '@zxing/browser';
 import Tesseract from 'tesseract.js';
+import styles from '../styles/Home.module.css';
 
 
 const DniReader = ({ setStep, setData, nextStep }) => {
-  const [options, setOptions] = useState({ loading: true, width: 320, height: 564 });
+  const [loading, setLoading] = useState(true);
   const [videoConstraints, setVideoConstraints] = useState({ width: 320, height: 564 });
 
   const webcamRef = useRef(null);
   useEffect(() => {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    setOptions({ width, height, loading: false });
-    setVideoConstraints({ width, height, facingMode: { exact: "environment" } });
+    navigator.mediaDevices.enumerateDevices()
+      .then(mediaDevices => mediaDevices.filter(({ kind }) => kind === 'videoinput'))
+      .then(videoDevices => {
+        if (videoDevices.length > 1) {
+          setVideoConstraints({ facingMode: { exact: "environment" } });
+        }
+        setLoading(false)
+      })
   }, [])
 
   const capture = () => {
@@ -22,10 +27,8 @@ const DniReader = ({ setStep, setData, nextStep }) => {
     setStep(nextStep);
   }
 
-  return !options.loading && <div>
-    <Webcam ref={webcamRef} width={options.width} height={options.height} audio={false} screenshotFormat="image/png" videoConstraints={videoConstraints} />
-    <div>{options.width}</div>
-    <div>{options.height}</div>
+  return !loading && <div className={styles.cameraContainer}>
+    <Webcam ref={webcamRef} audio={false} screenshotFormat="image/png" videoConstraints={videoConstraints} />
     <button style={{ position: 'absolute', bottom: 40, right: '50%' }} onClick={capture}>Foto</button>
   </div>
 }
