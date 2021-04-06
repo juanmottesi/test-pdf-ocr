@@ -23,10 +23,10 @@ const DniReader = ({ setStep, setData, nextStep }) => {
     setStep(nextStep);
   }
 
-  return !loading && <>
-    <Webcam ref={webcamRef} audio={false} height={videoConstraints.height} width={videoConstraints.width} screenshotFormat="image/png" videoConstraints={videoConstraints} />
-    <button style={{position: 'absolute', bottom: 40, right: '50%' }} onClick={capture}>Foto</button>
-    </>
+  return !loading && <div>
+    <Webcam ref={webcamRef} width="90%" audio={false} screenshotFormat="image/png" videoConstraints={videoConstraints} />
+    <button style={{ position: 'absolute', bottom: 40, right: '50%' }} onClick={capture}>Foto</button>
+  </div>
 }
 
 const DniFrontInfo = ({ data, setStep }) => {
@@ -35,13 +35,13 @@ const DniFrontInfo = ({ data, setStep }) => {
   useEffect(() => {
     const codeReader = new BrowserPDF417Reader();
     const sourceElem = document.querySelector('#image');
-    codeReader.decodeFromImageElement(sourceElem).then((r) => { setPdf417(r)}).catch(() => setError('T_T'))
-  },[]);
+    codeReader.decodeFromImageElement(sourceElem).then((r) => { setPdf417(r) }).catch(() => setError('T_T'))
+  }, []);
 
   return (
     <div>
       <img id="image" src={data} width="60%" height="30%" />
-      { pdf417 && 
+      { pdf417 &&
         <>
           <div>{pdf417.text}</div>
           <button onClick={() => setStep('askDniBack')}>next</button>
@@ -69,7 +69,7 @@ const DniBackInfo = ({ data, setStep }) => {
       await worker.initialize('eng');
 
       let result = await worker.detect(exampleImage);
-      console.log('???',result.data);
+      console.log('???', result.data);
 
       result = await worker.recognize(exampleImage);
       console.log('???', result.data);
@@ -88,7 +88,7 @@ const DniBackInfo = ({ data, setStep }) => {
       <img id="image" src={data} width="60%" height="30%" />
       { ocr &&
         <>
-        <div>{ocr.text}</div>
+          <div>{ocr.text}</div>
           <button onClick={() => setStep('end')}>next</button>
         </>
       }
