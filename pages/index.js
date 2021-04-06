@@ -22,8 +22,8 @@ const DniFront = ({ setStep, setData }) => {
   }
 
   return !loading && <>
-    <Webcam ref={webcamRef} audio={false}  screenshotFormat="image/png" videoConstraints={videoConstraints} />
-    <button onClick={capture}>Foto</button>
+    <Webcam ref={webcamRef} audio={false} height={videoConstraints.height} width={videoConstraints.width} screenshotFormat="image/png" videoConstraints={videoConstraints} />
+    <button style={{position: 'absolute', bottom: 40, right: '50%' }} onClick={capture}>Foto</button>
     </>
 }
 
