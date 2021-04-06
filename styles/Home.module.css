@@ -1,4 +1,9 @@
 .cameraContainer > video {
-  height: 75vh;
+  /* height: 75vh;
+  width: 100vw; */
+}
+
+.cameraContainer {
   width: 100vw;
+  height: 100vh;
 }

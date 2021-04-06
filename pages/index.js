@@ -15,20 +15,22 @@ const DniReader = ({ setStep, setData, nextStep }) => {
       .then(mediaDevices => mediaDevices.filter(({ kind }) => kind === 'videoinput'))
       .then(videoDevices => {
         if (videoDevices.length > 1) {
-          setVideoConstraints({ facingMode: { exact: "environment" } });
+          setVideoConstraints({ width: window.innerWidth, height: window.innerHeight, facingMode: { exact: "environment" } });
+        } else {
+          setVideoConstraints({ width: window.innerWidth, height: window.innerHeight });
         }
         setLoading(false)
       })
   }, [])
 
   const capture = () => {
-    const imageSrc = webcamRef.current.getScreenshot({ width: 1920, height: 1080 });
+    const imageSrc = webcamRef.current.getScreenshot();
     setData(imageSrc);
     setStep(nextStep);
   }
 
   return !loading && <div className={styles.cameraContainer}>
-    <Webcam ref={webcamRef} audio={false} screenshotFormat="image/png" videoConstraints={videoConstraints} />
+    <Webcam ref={webcamRef} audio={false} width={videoConstraints.width} height={videoConstraints.height} screenshotFormat="image/png" videoConstraints={videoConstraints} screenshotQuality={1} />
     <button style={{ position: 'absolute', bottom: 40, right: '50%' }} onClick={capture}>Foto</button>
   </div>
 }
@@ -39,7 +41,7 @@ const DniFrontInfo = ({ data, setStep }) => {
   useEffect(() => {
     const codeReader = new BrowserPDF417Reader();
     const sourceElem = document.querySelector('#image');
-    codeReader.decodeFromImageElement(sourceElem).then((r) => { setPdf417(r) }).catch(() => setError('T_T'))
+    codeReader.decodeFromImageElement(sourceElem).then((r) => { setPdf417(r) }).catch((e) => setError('T_T',e ))
   }, []);
 
   return (
