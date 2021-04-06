@@ -13,7 +13,7 @@ const DniReader = ({ setStep, setData, nextStep }) => {
     const width = window.innerWidth;
     const height = window.innerHeight;
     setOptions({ width, height, loading: false });
-    setVideoConstraints({ width, height, /*facingMode: { exact: "environment" } */ });
+    setVideoConstraints({ width, height, facingMode: { exact: "environment" } });
   }, [])
 
   const capture = () => {
