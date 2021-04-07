@@ -16,7 +16,7 @@ const Camera = ({ setData, setStep, nextStep }) => {
       <CameraPro ref={cameraRef} facingMode="environment" />
       <div className={styles.border} />
       <button className={styles.button} onClick={handleClick}>Take photo</button>
-      <button hidden={numberOfCameras <= 1} className={styles.button2} onClick={() => { camera.current.switchCamera(); }} />
+      <button hidden={numberOfCameras <= 1} className={styles.button2} onClick={() => { camera.current.switchCamera(); }}>switch</button>
     </div>
   );
 }
