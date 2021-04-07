@@ -13,6 +13,7 @@ const Camera = ({ setData, setStep, nextStep }) => {
   return (
     <div className={styles.container}>
       <CameraPro ref={cameraRef} facingMode="environment" />
+      <div className={styles.border} />
       <button className={styles.button} onClick={handleClick}>Take photo</button>
     </div>
   );
