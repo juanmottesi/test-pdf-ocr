@@ -26,5 +26,6 @@
   transform: translate(-50%, -50%);
   height: 35%!important;
   width: 95vw;
-  border: 1px solid red;
+  border: 2px solid red;
+  border-radius: 4px;
 }
