@@ -11,12 +11,14 @@ const Camera = ({ setData, setStep, nextStep }) => {
     setStep(nextStep);
   }
 
+  const handleSwitch = () => cameraRef.current.switchCamera();
+
   return (
     <div className={styles.container} >
       <CameraPro ref={cameraRef} facingMode="environment" numberOfCamerasCallback={setNumberOfCameras} />
       <div className={styles.border} />
       <button className={styles.button} onClick={handleClick}>Take photo</button>
-      {!(numberOfCameras <= 1) && <button className={styles.button2} onClick={() => { camera.current.switchCamera(); }}>switch</button>}
+      {!(numberOfCameras <= 1) && <button className={styles.button2} onClick={handleSwitch}>switch</button>}
     </div>
   );
 }
