@@ -24,7 +24,7 @@ const DniReader = ({ setStep, setData, nextStep }) => {
   }, [])
 
   const capture = () => {
-    const imageSrc = webcamRef.current.getScreenshot();
+    const imageSrc = webcamRef.current.getScreenshot({ width: videoConstraints.width, height: videoConstraints.height });
     setData(imageSrc);
     setStep(nextStep);
   }
