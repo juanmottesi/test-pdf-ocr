@@ -3,6 +3,7 @@ import Webcam from "react-webcam";
 import { BrowserPDF417Reader } from '@zxing/browser';
 import Tesseract from 'tesseract.js';
 import styles from '../styles/Home.module.css';
+import Camera from '../components/Camera';
 
 
 const DniReader = ({ setStep, setData, nextStep }) => {
@@ -125,9 +126,9 @@ const Home = () => {
   const renderElement = () => {
     switch (step) {
       case 'start': return <Intro setStep={setStep} />;
-      case 'askDniFront': return <DniReader setData={setDniFront} setStep={setStep} nextStep="showDniFront" />;
+      case 'askDniFront': return <Camera setData={setDniFront} setStep={setStep} nextStep="showDniFront" />;
       case 'showDniFront': return <DniFrontInfo data={dniFront} setStep={setStep} />;
-      case 'askDniBack': return <DniReader setData={setDniBack} setStep={setStep} nextStep="showDniBack" />;
+      case 'askDniBack': return <Camera setData={setDniBack} setStep={setStep} nextStep="showDniBack" />;
       case 'showDniBack': return <DniBackInfo data={dniBack} setStep={setStep} />;
       default: <div>FIN</div>;
     }

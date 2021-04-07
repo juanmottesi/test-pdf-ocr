@@ -7,3 +7,14 @@
   width: 100vw;
   height: 100vh;
 }
+
+.container > div {
+  height: 100%;
+}
+
+.button {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
