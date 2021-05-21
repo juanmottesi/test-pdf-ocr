@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 
+import styles from '../styles/ReactWebcam.module.css'
+
 const ReactWebcam = () => {
   const [videoConstraints, setVideoConstraints] = useState(undefined);
   const contianerRef = useRef(null);
 
   useEffect(() => {
-    console.log("???", contianerRef.current);
     setVideoConstraints({
       height: contianerRef.current.clientHeight,
       width: contianerRef.current.clientWidth,
@@ -25,7 +26,7 @@ const ReactWebcam = () => {
   }, [webcamRef]);
 
   return (
-    <div id="1" ref={contianerRef} style={{ width: "100vw", height: "100vh" }}>
+    <div id="1" ref={contianerRef} className={styles.container}>
       {videoConstraints && (
         <>
           <Webcam
